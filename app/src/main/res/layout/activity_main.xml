@@ -1,0 +1,329 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/backButtons"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:contentDescription="Back"
+        android:src="@drawable/baseline_arrow_back_24" />
+
+    <TextView
+        android:id="@+id/viewHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Snapbook"
+        android:layout_marginStart="90dp"
+        android:layout_marginBottom="30dp"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+</LinearLayout>
+
+    <ImageView
+        android:id="@+id/profilePicture"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/avatar"
+        android:contentDescription="Profile Picture"
+        android:scaleType="centerCrop"
+        android:background="@drawable/border_circle"
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+    <!-- Full Name -->
+    <TextView
+        android:id="@+id/fullNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Full Name: "
+        android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/fullNameInput"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/border"
+            android:hint="Full Name"
+            android:padding="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+    <TextView
+        android:id="@+id/nicknameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nickname:"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/nicknameInput"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/border"
+        android:padding="10dp"
+        android:layout_marginStart="12dp"
+        android:hint="Nickname" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address:"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/Address"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/border"
+            android:layout_marginStart="23dp"
+            android:padding="10dp"
+            android:hint="Address" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email:"
+            android:layout_marginBottom="10dp"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/Email"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/border"
+            android:layout_marginStart="40dp"
+            android:padding="10dp"
+            android:hint="Email" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <!-- Gender -->
+    <TextView
+        android:id="@+id/genderLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gender:"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp" />
+
+    <RadioGroup
+        android:id="@+id/genderGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="8dp">
+        <RadioButton
+            android:id="@+id/maleOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male" />
+        <RadioButton
+            android:id="@+id/femaleOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female" />
+
+        <RadioButton
+            android:id="@+id/otherOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Other" />
+    </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+        <!-- Gender -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status:"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
+
+        <RadioGroup
+            android:id="@+id/Status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="8dp">
+            <RadioButton
+                android:id="@+id/Single"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Single" />
+            <RadioButton
+                android:id="@+id/Married"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Married" />
+
+            <RadioButton
+                android:id="@+id/Divorced"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Divorced " />
+
+        </RadioGroup>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BIRTH OF DATE"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Month"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <Spinner
+        android:id="@+id/monthSpinner"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:background="@drawable/border" />
+
+</LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Day"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+        <Spinner
+            android:id="@+id/daySpinner"
+            android:layout_width="90dp"
+            android:layout_height="40dp"
+            android:background="@drawable/border"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Year"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        <Spinner
+            android:id="@+id/yearSpinner"
+            android:layout_width="90dp"
+            android:layout_height="40dp"
+            android:background="@drawable/border" />
+    </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/favoriteHobbiesIcon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/download"
+        android:layout_marginEnd="20dp"
+        android:contentDescription="Favorite Hobbies"
+        android:layout_marginTop="16dp" />
+
+    <!-- Favorite Icon -->
+    <ImageView
+        android:id="@+id/favoriteIcon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/favorite"
+        android:contentDescription="Favorite" />
+
+    <!-- Confused Icon -->
+    <ImageView
+        android:id="@+id/confusedIcon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/questions"
+        android:contentDescription="Confused"
+        android:layout_marginTop="16dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"/>
+</LinearLayout>

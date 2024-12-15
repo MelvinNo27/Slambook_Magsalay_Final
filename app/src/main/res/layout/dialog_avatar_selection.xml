@@ -1,0 +1,109 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="20dp"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select an Avatar"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingBottom="8dp" />
+
+        <GridLayout
+            android:id="@+id/avatarGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:rowCount="2"
+            android:padding="8dp">
+
+            <!-- Add sample ImageViews for avatars -->
+            <ImageView
+                android:id="@+id/girl1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/girl1"
+                android:scaleType="centerCrop"
+                android:layout_margin="8dp" />
+
+            <ImageView
+                android:id="@+id/girl2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/girl2"
+                android:scaleType="centerCrop"
+                android:layout_margin="8dp" />
+
+            <ImageView
+                android:id="@+id/girl3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/girl3"
+                android:scaleType="centerCrop"
+                android:layout_margin="8dp" />
+
+            <ImageView
+                android:id="@+id/girl4"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/girl4"
+                android:scaleType="centerCrop"
+                android:layout_margin="8dp" />
+
+            <ImageView
+                android:id="@+id/girl5"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/girl5"
+                android:scaleType="centerCrop"
+                android:layout_margin="8dp" />
+
+            <ImageView
+                android:id="@+id/boy1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/boy1"
+                android:scaleType="centerCrop"
+                android:layout_margin="8dp" />
+            <ImageView
+                android:id="@+id/boy2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/boy2"
+                android:scaleType="centerCrop"
+                android:layout_margin="8dp" />
+
+            <ImageView
+                android:id="@+id/boy3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/boy3"
+                android:scaleType="centerCrop"
+                android:layout_margin="8dp" />
+
+            <ImageView
+                android:id="@+id/boy4"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/boy4"
+                android:scaleType="centerCrop"
+                android:layout_margin="8dp" />
+
+            <ImageView
+                android:id="@+id/boy5"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/boy5"
+                android:scaleType="centerCrop"
+                android:layout_margin="8dp" />
+
+        </GridLayout>
+    </LinearLayout>
+</ScrollView>

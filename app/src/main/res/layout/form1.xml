@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f9f1e4"
+    android:gravity="center"
+    android:padding="16dp">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="A Journey Through Words, Memories, and Friendships – Capturing Moments, Sharing Stories, and Creating Bonds That Last a Lifetime!"
+        android:textStyle="bold"
+        android:layout_marginTop="-50dp"
+        android:padding="50dp"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        />
+
+    <Button
+        android:id="@+id/btnNext1"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="Next"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:backgroundTint="#3F2F9E"
+        android:textColor="#FFFFFF" />
+</LinearLayout>
