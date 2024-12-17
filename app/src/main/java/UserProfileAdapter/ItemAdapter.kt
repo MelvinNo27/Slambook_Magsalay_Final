@@ -20,12 +20,13 @@ class ItemAdapter(
     }
 
     fun updateItem(updatedItem: Item) {
-        val position = items.indexOfFirst { it.id == updatedItem.id }
-        if (position != -1) {
-            items[position] = updatedItem
-            notifyItemChanged(position) // Notify that the item has been updated
+        val index = items.indexOfFirst { it.id == updatedItem.id }
+        if (index != -1) {
+            items[index] = updatedItem
+            notifyItemChanged(index)
         }
     }
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {

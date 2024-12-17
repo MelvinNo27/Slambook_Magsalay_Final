@@ -31,20 +31,16 @@ class List : AppCompatActivity() {
     private var selectedImageUri: Uri? = null
     private var selectedAvatar: Drawable? = null
     private val items = mutableListOf<Item>()  // List to hold items
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         // Initialize RecyclerView
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-
         itemAdapter = ItemAdapter(items) { selectedItem ->
             showItemDetails(selectedItem)
         }
-
         binding.recyclerView.adapter = itemAdapter
 
         binding.ListBackButton.setOnClickListener {
@@ -56,15 +52,12 @@ class List : AppCompatActivity() {
             openAddDialog()
         }
     }
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun openAddDialog() {
         // Create a dialog builder
         val dialogBuilder = AlertDialog.Builder(this)
-
         // Inflate the dialog layout using ViewBinding
         val binding = ActivityMainBinding.inflate(layoutInflater)
-
         binding.profilePicture.setOnClickListener {
             // Inflate the dialog layout
             val dialogView = layoutInflater.inflate(R.layout.dialog_avatar_selection, null)
@@ -72,10 +65,8 @@ class List : AppCompatActivity() {
                 .setView(dialogView)
                 .setCancelable(true)
                 .create()
-
             // Find the GridLayout in the dialog
             val avatarGrid = dialogView.findViewById<GridLayout>(R.id.avatarGrid)
-
             // Set onClickListener for each avatar
             for (i in 0 until avatarGrid.childCount) {
                 val avatar = avatarGrid.getChildAt(i) as ImageView
@@ -86,7 +77,6 @@ class List : AppCompatActivity() {
                     avatarDialog.dismiss()
                 }
             }
-
             avatarDialog.show()
         }
         binding.favoriteHobbiesIcon.setOnClickListener {
@@ -98,7 +88,6 @@ class List : AppCompatActivity() {
         binding.confusedIcon.setOnClickListener {
             dialogToAddQuestions()
         }
-
         val nameEditText = binding.fullNameInput
         val nicknameEditText = binding.nicknameInput
         val addressEditText = binding.Address
@@ -106,29 +95,23 @@ class List : AppCompatActivity() {
         val monthSpinner = binding.monthSpinner
         val daySpinner = binding.daySpinner
         val yearSpinner = binding.yearSpinner
-
         // Populate the Spinners with values
         val months = resources.getStringArray(R.array.monthName)
         val days = resources.getStringArray(R.array.monthDay)
         val years = resources.getStringArray(R.array.Years)
-
         val monthAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, months)
         val dayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, days)
         val yearAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, years)
-
         monthSpinner.adapter = monthAdapter
         daySpinner.adapter = dayAdapter
         yearSpinner.adapter = yearAdapter
-
         dialogBuilder.setView(binding.root)
-
         // Show the dialog
         val dialog = dialogBuilder.create()
         dialog.show()
         binding.backButtons.setOnClickListener {
             dialog.dismiss()
         }
-
         // Set the btnSave button's click listener to handle the logic when clicked
         val btnSave = binding.btnSave // Assuming btnSave is in the dialog's layout
         btnSave.setOnClickListener {
@@ -136,14 +119,11 @@ class List : AppCompatActivity() {
             val nickname = nicknameEditText.text.toString()
             val address = addressEditText.text.toString()
             val email = emailEditText.text.toString()
-
             val birthMonth = monthSpinner.selectedItemPosition.toString().toInt() // Spinner months start from 0
             val birthDay = daySpinner.selectedItem.toString().toInt()
             val birthYear = yearSpinner.selectedItem.toString().toInt()
-
             val age =
                 calculateAge(birthYear, birthMonth, birthDay) // Call the age calculation function
-
             if (name.isNotEmpty() && nickname.isNotEmpty() && address.isNotEmpty() && email.isNotEmpty()) {
                 val newItem = Item(
                     fullName = name,
@@ -184,7 +164,6 @@ class List : AppCompatActivity() {
             }
         }
     }
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun calculateAge(year: Int, month: Int, day: Int): Int {
         val today = LocalDate.now() // Get today's date
@@ -195,13 +174,10 @@ class List : AppCompatActivity() {
             0 // If the birth date is in the future, return 0 or handle it as needed
         }
     }
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showItemDetails(item: Item) {
         // Create a dialog to show the item details
         val dialogBuilder = AlertDialog.Builder(this)
-        val dialog = dialogBuilder.create()
-
         // Inflate the dialog layout using ViewBinding
         val binding = ActivityDisplayUserProfileBinding.inflate(layoutInflater)
         val userProfile = intent.getParcelableExtra<Item>("userProfile")
@@ -213,9 +189,7 @@ class List : AppCompatActivity() {
         selectedAvatar?.let {
             avatarImageView.setImageDrawable(it)
         }
-
         userProfile?.let {
-
             binding.fullNameText.text = it.fullName
             binding.nicknameText.text = it.nickname
             binding.addressText.text = it.address
@@ -227,9 +201,7 @@ class List : AppCompatActivity() {
             binding.yearSpinner.text = it.birthYear
 
         }
-        binding.backButton.setOnClickListener {
-            dialog.dismiss()
-        }
+
         binding.HobbiesIconDisplay.setOnClickListener {
             displayHobbies(item)
         }
@@ -266,7 +238,6 @@ class List : AppCompatActivity() {
                 item.birthDay!!.toInt()
             )
         }"
-
         binding.maleRadioButton.isEnabled = false
         binding.femaleRadioButton.isEnabled = false
         binding.otherRadioButton.isEnabled = false
@@ -275,60 +246,57 @@ class List : AppCompatActivity() {
         binding.DivorcedRadioButton.isEnabled = false
 
         dialogBuilder.setView(binding.root)
+        val dialog = dialogBuilder.create()
         dialog.show()
+        binding.backButton.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun openUpdateDialog(item: Item) {
         val dialogBuilder = AlertDialog.Builder(this)
-
-        // Inflate the dialog layout using ViewBinding
         val binding = ActivityMainBinding.inflate(layoutInflater)
 
-        // Set the profile picture to show current avatar and allow selection
-        binding.profilePicture.setOnClickListener {
-            showAvatarSelectionDialog(binding)
+        // Populate fields with current item details
+        with(binding) {
+            fullNameInput.setText(item.fullName)
+            nicknameInput.setText(item.nickname)
+            Address.setText(item.address)
+            Email.setText(item.email)
+
+            setupSpinners(this, item)
+
+            // Profile picture click listener
+            profilePicture.setOnClickListener { showAvatarSelectionDialog(binding) }
+
+            // Add click listeners for hobbies, favorites, and questions
+            favoriteHobbiesIcon.setOnClickListener { dialogToAddHobbies() }
+            favoriteIcon.setOnClickListener { dialogToAddFavorites() }
+            confusedIcon.setOnClickListener { dialogToAddQuestions() }
         }
 
-        // Set up click listeners for hobbies, favorites, and questions
-        binding.favoriteHobbiesIcon.setOnClickListener {
-            dialogToAddHobbies()
-        }
-        binding.favoriteIcon.setOnClickListener {
-            dialogToAddFavorites()
-        }
-        binding.confusedIcon.setOnClickListener {
-            dialogToAddQuestions()
-        }
-
-        // Fill existing values
-        binding.fullNameInput.setText(item.fullName)
-        binding.nicknameInput.setText(item.nickname)
-        binding.Address.setText(item.address)
-        binding.Email.setText(item.email)
-
-        // Set spinners with the existing birthdate values
-        setupSpinners(binding, item)
-
-        dialogBuilder.setView(binding.root)
-        val updateDialog = dialogBuilder.create()
+        // Create and show the dialog
+        val updateDialog = dialogBuilder.setView(binding.root).create()
         updateDialog.show()
 
-        // Save the updated profile
+        // Save button logic
         binding.btnSave.setOnClickListener {
             val updatedName = binding.fullNameInput.text.toString()
             val updatedNickname = binding.nicknameInput.text.toString()
             val updatedAddress = binding.Address.text.toString()
             val updatedEmail = binding.Email.text.toString()
             val updatedMonth = binding.monthSpinner.selectedItemPosition
-            val updatedDay = binding.daySpinner.selectedItem.toString().toInt()
-            val updatedYear = binding.yearSpinner.selectedItem.toString().toInt()
+            val updatedDay = binding.daySpinner.selectedItem.toString().toIntOrNull()
+            val updatedYear = binding.yearSpinner.selectedItem.toString().toIntOrNull()
 
             // Validate inputs
-            if (isValidInput(updatedName, updatedNickname, updatedAddress, updatedEmail)) {
+            if (isValidInput(updatedName, updatedNickname, updatedAddress, updatedEmail) &&
+                updatedDay != null && updatedYear != null) {
+
                 val updatedAge = calculateAge(updatedYear, updatedMonth + 1, updatedDay)
 
-                // Create a new Item object with the updated data
+                // Create updated Item object
                 val updatedItem = item.copy(
                     fullName = updatedName,
                     nickname = updatedNickname,
@@ -337,21 +305,41 @@ class List : AppCompatActivity() {
                     birthMonth = (updatedMonth + 1).toString(),
                     birthDay = updatedDay.toString(),
                     birthYear = updatedYear.toString(),
-                    age = updatedAge
+                    age = updatedAge,
+                    favoriteHobbies = hobbiesData?.favoriteHobbies ?: "",
+                    freeTimeActivities = hobbiesData?.freeTimeActivities ?: "",
+                    indoorOutdoorPreference = hobbiesData?.indoorOutdoorPreference ?: "",
+                    wantedHobby = hobbiesData?.wantedHobby ?: "",
+                    favoriteMovie = favoritesData?.favoriteMovie ?: "",
+                    favoriteColor = favoritesData?.favoriteColor ?: "",
+                    favoriteSong = favoritesData?.favoriteSong ?: "",
+                    favoriteCelebrity = favoritesData?.favoriteCelebrity ?: "",
+                    favoriteSport = favoritesData?.favoriteSport ?: "",
+                    favoriteFood = favoritesData?.favoriteFood ?: "",
+                    favoritePerson = favoritesData?.favoritePerson ?: "",
+                    favoritePlace = favoritesData?.favoritePlace ?: "",
+                    selfDescription = questionsData?.selfDescription ?: "",
+                    biggestFear = questionsData?.biggestFear ?: "",
+                    happinessSource = questionsData?.happinessSource ?: "",
+                    selfLove = questionsData?.selfLove ?: "",
+                    inspirationSource = questionsData?.inspirationSource ?: "",
+                    uniqueTrait = questionsData?.uniqueTrait ?: "",
+                    craziestThing = questionsData?.craziestThing ?: "",
+                    proudOf = questionsData?.proudOf ?: ""
                 )
 
                 // Update the RecyclerView item
                 itemAdapter.updateItem(updatedItem)
 
-                // Notify the user and close the dialog
-                Toast.makeText(this, "Profile updated!", Toast.LENGTH_SHORT).show()
+                // Notify user and dismiss dialog
+                Toast.makeText(this@List, "Profile updated!", Toast.LENGTH_SHORT).show()
                 updateDialog.dismiss()
             } else {
-                Toast.makeText(this, "Please fill all fields correctly", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@List, "Please fill all fields correctly", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Set the back button to dismiss the dialog
+        // Back button logic
         binding.backButtons.setOnClickListener {
             updateDialog.dismiss()
         }
@@ -364,7 +352,6 @@ class List : AppCompatActivity() {
             .setView(dialogView)
             .setCancelable(true)
             .create()
-
         val avatarGrid = dialogView.findViewById<GridLayout>(R.id.avatarGrid)
         for (i in 0 until avatarGrid.childCount) {
             val avatar = avatarGrid.getChildAt(i) as ImageView
@@ -376,7 +363,6 @@ class List : AppCompatActivity() {
         }
         avatarDialog.show()
     }
-
     // Method to populate spinners with months, days, and years
     private fun setupSpinners(binding: ActivityMainBinding, item: Item) {
         val months = resources.getStringArray(R.array.monthName)
