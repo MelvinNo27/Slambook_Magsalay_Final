@@ -10,17 +10,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class ItemAdapter(
-    private val context: Context,  // Add context to show the dialog
+    private val context: Context,
     private val items: MutableList<Item>,
     private val onItemClick: (Item) -> Unit,
-    private val onDeleteClick: (Item) -> Unit  // Add a listener for the delete click
+    private val onDeleteClick: (Item) -> Unit
 ) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
-    // ViewHolder for the RecyclerView
+
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
         val avatarImageView: ImageView = itemView.findViewById(R.id.avatarDisplay)
-        val deleteIcon: ImageView = itemView.findViewById(R.id.deleteIcon) // Reference to the delete icon
+        val deleteIcon: ImageView = itemView.findViewById(R.id.deleteIcon)
     }
 
     fun updateItem(updatedItem: Item) {

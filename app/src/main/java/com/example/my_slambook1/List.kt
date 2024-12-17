@@ -1,13 +1,10 @@
 package com.example.my_slambook1
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Patterns
 import android.widget.ArrayAdapter
 import android.widget.*
@@ -57,11 +54,11 @@ class List : AppCompatActivity() {
         binding.recyclerView.adapter = itemAdapter
 
 
-// Set the adapter to the RecyclerView
+
         binding.recyclerView.adapter = itemAdapter
 
         binding.addButton.setOnClickListener {
-            // Open the dialog when the "Add" button is clicked
+
             openAddDialog()
         }
     }
@@ -74,7 +71,7 @@ class List : AppCompatActivity() {
         // Inflate the dialog layout using ViewBinding
         val binding = ActivityMainBinding.inflate(layoutInflater)
         binding.profilePicture.setOnClickListener {
-            // Inflate the dialog layout
+
             val dialogView = layoutInflater.inflate(R.layout.dialog_avatar_selection, null)
             val avatarDialog = AlertDialog.Builder(this)
                 .setView(dialogView)
@@ -86,12 +83,12 @@ class List : AppCompatActivity() {
             for (i in 0 until avatarGrid.childCount) {
                 val avatar = avatarGrid.getChildAt(i) as ImageView
                 avatar.setOnClickListener {
-                    // Set the selected avatar on the profile picture
+
                     binding.profilePicture.setImageDrawable(avatar.drawable)
 
-                    // Save the selected avatar drawable in a variable (for later use)
+
                     selectedAvatar =
-                        avatar.drawable // You can store this in a global variable or pass it to the Item
+                        avatar.drawable
 
                     avatarDialog.dismiss()
                 }
@@ -229,10 +226,8 @@ class List : AppCompatActivity() {
                     proudOf = questionsData?.proudOf ?: ""
                 )
 
-                // Add the item to the adapter and notify the change
                 itemAdapter.addItem(newItem)
 
-                // Provide feedback to the user
                 Toast.makeText(this, "Item Added: $name\nAge: $age years", Toast.LENGTH_SHORT)
                     .show()
 
@@ -253,7 +248,7 @@ class List : AppCompatActivity() {
         return if (birthDate.isBefore(today) || birthDate.isEqual(today)) {
             Period.between(birthDate, today).years // Calculate the years difference
         } else {
-            0 // If the birth date is in the future, return 0 or handle it as needed
+            0
         }
     }
     @RequiresApi(Build.VERSION_CODES.O)
@@ -270,7 +265,7 @@ class List : AppCompatActivity() {
         dialogBuilder.setView(binding.root)
         val dialog = dialogBuilder.create()
 
-        // Use the profilePictureDrawable from the Item object to display the avatar
+
         item.avatar?.let {
             avatarImageView.setImageDrawable(it)
         } ?: run {
@@ -426,10 +421,10 @@ class List : AppCompatActivity() {
                     proudOf = questionsData?.proudOf ?: ""
                 )
 
-                // Update the RecyclerView item
+
                 itemAdapter.updateItem(updatedItem)
 
-                // Notify user and dismiss dialog
+
                 Toast.makeText(this@List, "Profile updated!", Toast.LENGTH_SHORT).show()
                 updateDialog.dismiss()
             } else {
@@ -443,7 +438,6 @@ class List : AppCompatActivity() {
         }
     }
 
-    // Reusable method to handle avatar selection
     private fun showAvatarSelectionDialog(binding: ActivityMainBinding) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_avatar_selection, null)
         val avatarDialog = AlertDialog.Builder(this)
@@ -461,7 +455,7 @@ class List : AppCompatActivity() {
         }
         avatarDialog.show()
     }
-    // Method to populate spinners with months, days, and years
+
     private fun setupSpinners(binding: ActivityMainBinding, item: Item) {
         val months = resources.getStringArray(R.array.monthName)
         val days = resources.getStringArray(R.array.monthDay)
@@ -475,17 +469,16 @@ class List : AppCompatActivity() {
         binding.daySpinner.adapter = dayAdapter
         binding.yearSpinner.adapter = yearAdapter
 
-        // Set the spinner selections to the current values of the Item
+
         val birthMonthPosition = item.birthMonth?.toInt() ?: 0
         val birthDay = item.birthDay?.toInt() ?: 1
         val birthYear = item.birthYear?.toInt() ?: 2000
 
-        binding.monthSpinner.setSelection(birthMonthPosition) // Spinner month starts at 0
-        binding.daySpinner.setSelection(birthDay - 1)  // Spinner day starts at 0
-        binding.yearSpinner.setSelection(birthYear - 2000) // Adjust for year selection range (if years are 2000-2100)
+        binding.monthSpinner.setSelection(birthMonthPosition)
+        binding.daySpinner.setSelection(birthDay - 1)
+        binding.yearSpinner.setSelection(birthYear - 2000)
     }
 
-    // Input validation
     private fun isValidInput(name: String, nickname: String, address: String, email: String): Boolean {
         return name.isNotEmpty() && nickname.isNotEmpty() && address.isNotEmpty() && email.isNotEmpty() && isValidEmail(email)
     }
