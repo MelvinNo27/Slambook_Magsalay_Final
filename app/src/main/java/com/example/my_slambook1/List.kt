@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Patterns
 import android.widget.ArrayAdapter
 import android.widget.*
@@ -38,20 +40,33 @@ class List : AppCompatActivity() {
         setContentView(binding.root)
         // Initialize RecyclerView
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        itemAdapter = ItemAdapter(items) { selectedItem ->
-            showItemDetails(selectedItem)
-        }
+
+// Pass the context (this) as the first parameter
+        itemAdapter = ItemAdapter(
+            this,  // Pass context (Activity or Fragment context)
+            items,
+            { selectedItem ->
+                showItemDetails(selectedItem)
+            },
+            { itemToDelete ->
+                // Handle item deletion, for example:
+                itemAdapter.removeItem(itemToDelete)
+            }
+        )
+
         binding.recyclerView.adapter = itemAdapter
 
-        binding.ListBackButton.setOnClickListener {
-            startActivity(Intent(this, Form2::class.java))
-            finish()
-        }
+
+// Set the adapter to the RecyclerView
+        binding.recyclerView.adapter = itemAdapter
+
         binding.addButton.setOnClickListener {
             // Open the dialog when the "Add" button is clicked
             openAddDialog()
         }
     }
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun openAddDialog() {
         // Create a dialog builder
@@ -65,20 +80,25 @@ class List : AppCompatActivity() {
                 .setView(dialogView)
                 .setCancelable(true)
                 .create()
-            // Find the GridLayout in the dialog
+
+            // Handle avatar selection
             val avatarGrid = dialogView.findViewById<GridLayout>(R.id.avatarGrid)
-            // Set onClickListener for each avatar
             for (i in 0 until avatarGrid.childCount) {
                 val avatar = avatarGrid.getChildAt(i) as ImageView
                 avatar.setOnClickListener {
-                    // Update profile picture with the selected avatar
+                    // Set the selected avatar on the profile picture
                     binding.profilePicture.setImageDrawable(avatar.drawable)
-                    selectedImageUri = null // Reset URI as avatar is selected
+
+                    // Save the selected avatar drawable in a variable (for later use)
+                    selectedAvatar =
+                        avatar.drawable // You can store this in a global variable or pass it to the Item
+
                     avatarDialog.dismiss()
                 }
             }
             avatarDialog.show()
         }
+
         binding.favoriteHobbiesIcon.setOnClickListener {
             dialogToAddHobbies()
         }
@@ -88,6 +108,8 @@ class List : AppCompatActivity() {
         binding.confusedIcon.setOnClickListener {
             dialogToAddQuestions()
         }
+
+        // Spinner setup (same as before)
         val nameEditText = binding.fullNameInput
         val nicknameEditText = binding.nicknameInput
         val addressEditText = binding.Address
@@ -95,36 +117,85 @@ class List : AppCompatActivity() {
         val monthSpinner = binding.monthSpinner
         val daySpinner = binding.daySpinner
         val yearSpinner = binding.yearSpinner
-        // Populate the Spinners with values
+
         val months = resources.getStringArray(R.array.monthName)
         val days = resources.getStringArray(R.array.monthDay)
         val years = resources.getStringArray(R.array.Years)
+
         val monthAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, months)
         val dayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, days)
         val yearAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, years)
+
         monthSpinner.adapter = monthAdapter
         daySpinner.adapter = dayAdapter
         yearSpinner.adapter = yearAdapter
+
         dialogBuilder.setView(binding.root)
-        // Show the dialog
         val dialog = dialogBuilder.create()
         dialog.show()
+
+        // Set onClickListener for the back button to dismiss the dialog
         binding.backButtons.setOnClickListener {
             dialog.dismiss()
         }
-        // Set the btnSave button's click listener to handle the logic when clicked
-        val btnSave = binding.btnSave // Assuming btnSave is in the dialog's layout
-        btnSave.setOnClickListener {
+
+
+        binding.btnSave.setOnClickListener {
             val name = nameEditText.text.toString()
             val nickname = nicknameEditText.text.toString()
             val address = addressEditText.text.toString()
             val email = emailEditText.text.toString()
-            val birthMonth = monthSpinner.selectedItemPosition.toString().toInt() // Spinner months start from 0
-            val birthDay = daySpinner.selectedItem.toString().toInt()
-            val birthYear = yearSpinner.selectedItem.toString().toInt()
-            val age =
-                calculateAge(birthYear, birthMonth, birthDay) // Call the age calculation function
-            if (name.isNotEmpty() && nickname.isNotEmpty() && address.isNotEmpty() && email.isNotEmpty()) {
+
+            val birthMonth = monthSpinner.selectedItemPosition
+            val birthDay = daySpinner.selectedItem.toString().toIntOrNull() ?: 0
+            val birthYear = yearSpinner.selectedItem.toString().toIntOrNull() ?: 0
+            val genderGroup = binding.genderGroup
+            val statusGroup = binding.Status
+
+            // Get selected gender
+            val selectedGenderId = genderGroup.checkedRadioButtonId
+            val gender = when (selectedGenderId) {
+                R.id.maleOption -> "Male"
+                R.id.femaleOption -> "Female"
+                R.id.otherOption -> "Other"
+                else -> "Not Specified"
+            }
+
+            // Get selected status
+            val selectedStatusId = statusGroup.checkedRadioButtonId
+            val status = when (selectedStatusId) {
+                R.id.Single -> "Single"
+                R.id.Married -> "Married"
+                R.id.Divorced -> "Divorced"
+                else -> "Not Specified"
+            }
+
+            // Calculate the age
+            val age = calculateAge(birthYear, birthMonth, birthDay)
+            val emailPattern = "^[A-Za-z0-9+_.-]+@gmail\\.com$".toRegex()
+
+            // Input validation checks
+            if (birthMonth == 0 || birthDay == 0 || birthYear == 0) {
+                Toast.makeText(this, "Please select your birth date", Toast.LENGTH_SHORT).show()
+            } else if (name.isEmpty()) {
+                Toast.makeText(this, "Full Name is required", Toast.LENGTH_SHORT).show()
+            } else if (nickname.isEmpty()) {
+                Toast.makeText(this, "Nickname is required", Toast.LENGTH_SHORT).show()
+            } else if (address.isEmpty()) {
+                Toast.makeText(this, "Address is required", Toast.LENGTH_SHORT).show()
+            } else if (email.isEmpty()) {
+                Toast.makeText(this, "Email is required", Toast.LENGTH_SHORT).show()
+            } else if (!email.matches(emailPattern)) {
+                Toast.makeText(this, "Please enter a valid Gmail address", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                // Ensure selectedAvatar is not null
+                val avatar = selectedAvatar ?: run {
+                    Toast.makeText(this, "Please select an avatar", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                // Create a new Item
                 val newItem = Item(
                     fullName = name,
                     nickname = nickname,
@@ -133,6 +204,9 @@ class List : AppCompatActivity() {
                     birthMonth = birthMonth.toString(),
                     birthDay = birthDay.toString(),
                     birthYear = birthYear.toString(),
+                    avatar = avatar,  // Ensure avatar is not null
+                    gender = gender,
+                    status = status,
                     favoriteHobbies = hobbiesData?.favoriteHobbies ?: "",
                     freeTimeActivities = hobbiesData?.freeTimeActivities ?: "",
                     indoorOutdoorPreference = hobbiesData?.indoorOutdoorPreference ?: "",
@@ -154,17 +228,25 @@ class List : AppCompatActivity() {
                     craziestThing = questionsData?.craziestThing ?: "",
                     proudOf = questionsData?.proudOf ?: ""
                 )
-                itemAdapter.addItem(newItem) // Update the RecyclerView
+
+                // Add the item to the adapter and notify the change
+                itemAdapter.addItem(newItem)
+
+                // Provide feedback to the user
                 Toast.makeText(this, "Item Added: $name\nAge: $age years", Toast.LENGTH_SHORT)
                     .show()
+
+                // Pass the new item via intent
                 intent.putExtra("userProfile", newItem)
-                dialog.dismiss() // Close the dialog after adding the item
-            } else {
-                Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show()
+
+                // Dismiss the dialog
+                dialog.dismiss()
             }
         }
     }
-    @RequiresApi(Build.VERSION_CODES.O)
+
+
+        @RequiresApi(Build.VERSION_CODES.O)
     private fun calculateAge(year: Int, month: Int, day: Int): Int {
         val today = LocalDate.now() // Get today's date
         val birthDate = LocalDate.of(year, month, day) // Create a LocalDate for the birth date
@@ -185,9 +267,14 @@ class List : AppCompatActivity() {
         val dialogView = layoutInflater.inflate(R.layout.activity_display_user_profile, null)
         val avatarImageView = dialogView.findViewById<ImageView>(R.id.profilePictureDisplay)
 
-        // Set the avatar image if available
-        selectedAvatar?.let {
+        dialogBuilder.setView(binding.root)
+        val dialog = dialogBuilder.create()
+
+        // Use the profilePictureDrawable from the Item object to display the avatar
+        item.avatar?.let {
             avatarImageView.setImageDrawable(it)
+        } ?: run {
+            avatarImageView.setImageResource(R.drawable.avatar)
         }
         userProfile?.let {
             binding.fullNameText.text = it.fullName
@@ -199,7 +286,21 @@ class List : AppCompatActivity() {
             binding.monthSpinner.text = it.birthMonth
             binding.daySpinner.text = it.birthDay
             binding.yearSpinner.text = it.birthYear
+            // Set the gender radio button based on the gender field
+            when (it.gender) {
+                "Male" -> binding.genderGroup.check(R.id.maleRadioButton)
+                "Female" -> binding.genderGroup.check(R.id.femaleRadioButton)
+                "Other" -> binding.genderGroup.check(R.id.otherRadioButton)
+                else -> binding.genderGroup.clearCheck() // Clear if not specified
+            }
 
+            // Set the status radio button based on the status field
+            when (it.status) {
+                "Single" -> binding.Status.check(R.id.singleRadioButton)
+                "Married" -> binding.Status.check(R.id.marriedRadioButton)
+                "Divorced" -> binding.Status.check(R.id.DivorcedRadioButton)
+                else -> binding.Status.clearCheck() // Clear if not specified
+            }
         }
 
         binding.HobbiesIconDisplay.setOnClickListener {
@@ -213,6 +314,7 @@ class List : AppCompatActivity() {
         }
         binding.Update.setOnClickListener {
             openUpdateDialog(item)
+            dialog.dismiss()
         }
         // Set the item details in the dialog
         binding.fullNameText.text = "${item.fullName}"
@@ -222,9 +324,6 @@ class List : AppCompatActivity() {
         binding.monthSpinner.text = "${item.birthMonth}"
         binding.daySpinner.text = "${item.birthDay}"
         binding.yearSpinner.text = "${item.birthYear}"
-        binding.genderGroup.check(R.id.maleRadioButton)
-        binding.genderGroup.check(R.id.femaleRadioButton)
-        binding.genderGroup.check(R.id.otherRadioButton)
         binding.genderGroup.check(R.id.maleRadioButton)
         binding.genderGroup.check(R.id.femaleRadioButton)
         binding.genderGroup.check(R.id.otherRadioButton)
@@ -245,8 +344,7 @@ class List : AppCompatActivity() {
         binding.marriedRadioButton.isEnabled = false
         binding.DivorcedRadioButton.isEnabled = false
 
-        dialogBuilder.setView(binding.root)
-        val dialog = dialogBuilder.create()
+
         dialog.show()
         binding.backButton.setOnClickListener {
             dialog.dismiss()
@@ -302,7 +400,7 @@ class List : AppCompatActivity() {
                     nickname = updatedNickname,
                     address = updatedAddress,
                     email = updatedEmail,
-                    birthMonth = (updatedMonth + 1).toString(),
+                    birthMonth = (updatedMonth).toString(),
                     birthDay = updatedDay.toString(),
                     birthYear = updatedYear.toString(),
                     age = updatedAge,

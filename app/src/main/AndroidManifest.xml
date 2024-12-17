@@ -26,12 +26,6 @@
         </activity>
 
         <activity
-            android:name=".DisplayUserProfile"
-            android:exported="false"/>
-        <activity
-            android:name=".UserProfile"
-            android:exported="false"/>
-        <activity
             android:name=".Form2"
             android:exported="false"/>
 

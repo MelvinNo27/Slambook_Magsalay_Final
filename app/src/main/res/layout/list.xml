@@ -1,50 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#F5E7DE"
     android:padding="16dp">
 
-    <!-- Search Bar -->
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="16dp">
+        android:src="@drawable/peaking"
+        android:layout_marginTop="-70dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="-112dp"/>
 
-        <!-- Back Button -->
-        <ImageView
-            android:id="@+id/ListBackButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="16dp"
-            android:contentDescription="Back button"
-            android:src="@drawable/baseline_arrow_back_24" />
-
-        <EditText
-            android:id="@+id/searchBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Search"
-            android:padding="12dp"
-            android:background="@android:drawable/edit_text"
-            android:layout_marginEnd="8dp" />
-
-        <Button
-            android:id="@+id/addButton"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:text="Add"/>
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        android:layout_margin="16dp">
 
+        <!-- RecyclerView inside the CardView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ImageButton
+            android:id="@+id/addButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:paddingBottom="3000dp"
+            android:layout_marginTop="550dp"
+            android:src="@drawable/addicon"
+            android:layout_marginStart="220dp"
+            android:contentDescription="Add Button"
+            android:background="@drawable/addicon" />
+
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

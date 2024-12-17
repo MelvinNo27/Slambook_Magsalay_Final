@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/View"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="#8EC8C8"
-    android:padding="16dp">
+    android:layout_marginBottom="10dp"
+    android:padding="12dp">
 
+    <!-- Avatar ImageView -->
     <ImageView
         android:id="@+id/avatarDisplay"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_gravity="center"
+        android:layout_marginEnd="12dp"
         android:src="@drawable/avatar"
         android:contentDescription="Profile Picture"
         android:scaleType="centerCrop"
         android:background="@drawable/border_circle"
-        android:padding="8dp"
-        android:clickable="true"
-        android:focusable="true" />
+        android:padding="4dp"
+        android:focusable="true"
+        android:clickable="true" />
 
+    <!-- Name TextView -->
     <TextView
         android:id="@+id/nameTextView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
         android:text="Full Name"
         android:textStyle="bold"
-        android:gravity="center"
-        android:layout_gravity="center"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
+    <!-- Delete Icon -->
+    <ImageView
+        android:id="@+id/deleteIcon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="Delete Icon"
+        android:src="@drawable/baseline_delete_forever_24"
+        android:clickable="true"
+        android:focusable="true" />
 </LinearLayout>

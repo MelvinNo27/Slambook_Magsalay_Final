@@ -39,9 +39,10 @@ data class Item(
     var proudOf: String? = "",
     var age: Int? = 0,
     val id: Int = 0,
-
     var avatar: Drawable? = null
 ) : Parcelable {
+
+
 
     // Constructor for Parcelable
     constructor(parcel: Parcel) : this(
